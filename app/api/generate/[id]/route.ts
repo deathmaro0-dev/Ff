@@ -12,9 +12,9 @@ export async function GET(_req: NextRequest, context: { params: Promise<{ id: st
   if (!apiKey) return NextResponse.json({ error: "Polza.ai не подключён." }, { status: 503 });
 
   const { id } = await context.params;
-  if (!/^aig_[A-Za-z0-9_-]+$/.test(id)) {
-    return NextResponse.json({ error: "Некорректный ID генерации." }, { status: 400 });
-  }
+  if (!id || id.length > 200 || !/^[A-Za-z0-9._:-]+$/.test(id)) {
+  return NextResponse.json({ error: "Некорректный ID генерации." }, { status: 400 });
+}
 
   try {
     const response = await fetch(`https://polza.ai/api/v1/media/${encodeURIComponent(id)}`, {
