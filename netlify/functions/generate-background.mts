@@ -19,10 +19,27 @@ type Job = {
 };
 
 function validSession(cookieHeader: string) {
-  const match = cookieHeader.match(/(?:^|;\\s*)nova_studio_session=([^;]+)/);
+  const match = cookieHeader.match(/(?:^|;\s*)nova_studio_session=([^;]+)/);
   const token = match?.[1];
   const secret = process.env.SESSION_SECRET;
   if (!token || !secret) return false;
+
+  const [timestamp, supplied] = decodeURIComponent(token).split(".");
+  if (!timestamp  !supplied  !/^\d+$/.test(timestamp)) return false;
+
+  const issuedAt = Number(timestamp);
+  if (
+    !Number.isFinite(issuedAt) ||
+    issuedAt > Date.now() + 60_000 ||
+    Date.now() - issuedAt > 14 * 24 * 60 * 60 * 1000
+  ) return false;
+
+  const expected = createHmac("sha256", secret).update(timestamp).digest("hex");
+  const a = Buffer.from(supplied, "hex");
+  const b = Buffer.from(expected, "hex");
+
+  return a.length === b.length && timingSafeEqual(a, b);
+}
 
   const [timestamp, supplied] = decodeURIComponent(token).split(".");
   if (!timestamp || !supplied || !/^\\d+$/.test(timestamp)) return false;
