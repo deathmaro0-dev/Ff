@@ -1,5 +1,17 @@
-import { redirect } from "next/navigation";
-
+const projects = [
+  { n: "01", title: "Дом у озера", type: "Каркасный дом · 142 м²", image: "photo-1600585154340-be6161a56a0c" },
+  { n: "02", title: "Скандинавия", type: "Загородный дом · 186 м²", image: "photo-1600607687939-ce8a6c25118c" },
+  { n: "03", title: "Лесная резиденция", type: "Дом из клеёного бруса · 218 м²", image: "photo-1600566753086-00f18fb6b3ea" },
+];
+const photo = (id: string, w = 1200) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=85`;
 export default function Home() {
-  redirect("/admin");
+ return <main>
+  <header className="nav"><a className="logo" href="#"><span className="mark">A</span> АЛЮФОРТ</a><nav><a href="#projects">Проекты</a><a href="#about">О компании</a><a href="#steps">Этапы</a></nav><a className="nav-phone" href="tel:+78005553535">+7 800 555-35-35</a></header>
+  <section className="hero"><div className="hero-copy"><div className="eyebrow"><i/> СТРОИМ С 2012 ГОДА</div><h1>Дом, в котором<br/>начинается <em>ваша</em><br/>история.</h1><p>Проектируем и строим загородные дома, в которых продумана каждая деталь — от первого чертежа до тёплого света в окнах.</p><div className="actions"><a className="button dark" href="#projects">Смотреть проекты <span>↗</span></a><a className="button glass" href="#contact">Рассчитать стоимость <span>＋</span></a></div><div className="proof"><b>12 лет</b><span>создаём дома для жизни</span><b>240+</b><span>семей уже дома</span></div></div><div className="hero-image" style={{backgroundImage:`linear-gradient(0deg,#11181399,transparent 55%),url(${photo("photo-1600585154340-be6161a56a0c")})`}}><span className="image-tag">АРХИТЕКТУРА, КОТОРАЯ ОСТАЁТСЯ</span><span className="image-note">01 / 03　 —　 дом у озера</span><div className="orbit">A</div></div><div className="vertical">ПРОЕКТИРУЕМ　 /　 СТРОИМ　 /　 ВДОХНОВЛЯЕМ</div></section>
+  <section id="about" className="intro"><div className="eyebrow">АЛЮФОРТ · О КОМПАНИИ</div><h2>Сильная архитектура.<br/><em>Надёжный фундамент.</em></h2><p>Соединяем современные технологии строительства и внимание к тому, как вы будете жить в своём доме каждый день.</p></section>
+  <section className="projects" id="projects"><div className="section-head"><div><div className="eyebrow">ИЗБРАННЫЕ РАБОТЫ</div><h2>Дома, в которых хочется остаться.</h2></div><a href="#contact" className="text-link">Обсудить ваш проект　↗</a></div><div className="project-grid">{projects.map(p=><article className="project" key={p.n}><div className="project-img" style={{backgroundImage:`url(${photo(p.image,900)})`}}><span>{p.n} — 03</span><a href="#contact" aria-label="Подробнее">↗</a></div><h3>{p.title}</h3><p>{p.type}</p></article>)}</div></section>
+  <section className="manifesto" id="steps"><div className="eyebrow">ВАШ ДОМ — НАШЕ ДЕЛО</div><h2>От первой идеи<br/>до <em>первого утра</em><br/>в новом доме.</h2><a className="button light" href="#contact">Записаться на консультацию　 ↗</a><div className="manifesto-photo" style={{backgroundImage:`url(${photo("photo-1600607687920-4e2a09cf159d")})`}}/></section>
+  <section className="contact" id="contact"><div><div className="eyebrow">СДЕЛАЕМ ПЕРВЫЙ ШАГ</div><h2>Расскажите,<br/><em>какой дом вам нужен.</em></h2></div><a className="button dark" href="#contact">Рассчитать стоимость　 ↗</a></section>
+  <footer><a className="logo" href="#"><span className="mark">A</span> АЛЮФОРТ</a><span>Строим пространство для вашей жизни.</span><span>© АЛЮФОРТ, 2026</span></footer>
+ </main>
 }
